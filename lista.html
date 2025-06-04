@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0f0f0f;
+      --accent-color: #e60073;
+      --text-color: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    nav a {
+      margin: 0 1rem;
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .game-card {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+
+
+    .game-card:hover .wishlist-btn {
+      display: block;
+    }
+
+    .settings {
+      position: fixed;
+      top: 5rem;
+      right: 1rem;
+      background-color: #1a1a1a;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px var(--accent-color);
+      display: none;
+    }
+
+    .settings input[type="color"] {
+      margin: 0.5rem;
+    }
+
+    /* Interfaz de personalización */
+  .personalizar-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+    .customization-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding:10px 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .customization-panel {
+      background-color: #2a2a2a;
+      padding: 2rem;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 300px;
+    }
+
+    .customization-panel input {
+      margin-bottom: 1rem;
+    }
+
+    audio {
+      display: none;
+    } 
+
+    iframe {
+      border-radius: 12px;
+    }
+
+    .spotify-login {
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Game Hub</h1>
+    <nav>
+      <a href="#categorias" onclick="playClickSound()">Categorías</a>
+      <a href="file:///C:/Users/PC02/Desktop/videojuegos/comprar.html" onclick="playClickSound()">Comprar</a>
+      <a href="#jugar" onclick="playClickSound()">Jugar</a>
+    </nav>
+  </header>
+    <button onclick="toggleCustomization()" button class="personalizar-btn">Personalizar</button>
+
+  <!-- Panel de personalización -->
+  <div id="customizationPanel" class="customization-container">
+    <div class="customization-panel">
+      <h2>Personaliza tu interfaz</h2>
+      <label for="backgroundColor">Color de Fondo:</label>
+      <input type="color" id="backgroundColor" value="#0f0f0f">
+      <label for="textColor">Color de Texto:</label>
+      <input type="color" id="textColor" value="#ffffff">
+      <label for="accentColor">Color de Acento:</label>
+      <input type="color" id="accentColor" value="#e60073">
+      <div class="section">
+        <h2>Spotify Playlists</h2>
+    
+        <!-- Puedes cambiar el src por el link de tu playlist o canción -->
+        <iframe style="border-radius:12px" 
+                src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" 
+                width="100%" height="100" frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+        </iframe>
+    
+        <iframe style="border-radius:12px; margin-top: 15px;" 
+                src="https://open.spotify.com/embed/playlist/4KKFbqDDjWywQ3XV1fJDQ9" 
+                width="100%" height="80" frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+        </iframe>
+      </div>
+      <div class="spotify-login">
+      <button onclick="abrirVentanaSpotify()">Iniciar Spotify</button>
+      <button onclick="saveCustomization()" style="margin-top: 1rem; background-color: var(--accent-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px;">Guardar Cambios</button>
+      <button onclick="toggleCustomization()" style="margin-top: 1rem; background-color: red; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px;">Cancelar</button>
+    </div>
+    </div>
+    </div>
+  
+  <section class="games-grid" id="jugar">
+    <!-- Juego de ejemplo -->
+    <div class="game-card">
+      <img src="data:image/jpeg;base64,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" alt="Conquer Antartica" width="100%" />
+      <a ref="https://es.games68.com/games.php?id=599" onclick="playClickSound()">Jugar</a>
+      <audio id="clickSound" src="sonidoclick.mp3"></audio>
+    </div>
+  </section>
+
+  <audio id="clickSound" src="sonidoclick.mp3"></audio>
+
+  <script>
+    // Cargar personalización desde localStorage y aplicarla
+    window.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+      const customBackground = localStorage.getItem('customBackground');
+      const customText = localStorage.getItem('customText');
+      const customAccent = localStorage.getItem('customAccent');
+
+      if (customBackground) root.style.setProperty('--background-color', customBackground);
+      if (customText) root.style.setProperty('--text-color', customText);
+      if (customAccent) root.style.setProperty('--accent-color', customAccent);
+
+      document.body.style.backgroundColor = getComputedStyle(root).getPropertyValue('--background-color') || '#0f0f0f';
+      document.body.style.color = getComputedStyle(root).getPropertyValue('--text-color') || '#ffffff';
+    });
+
+    function playClickSound() {
+      const audio = new Audio('sonidoclick.mp3');
+      audio.play();
+    }
+
+    function toggleCustomization() {
+      const customizationPanel = document.getElementById('customizationPanel');
+      customizationPanel.style.display = customizationPanel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function abrirVentanaSpotify() {
+      window.open('https://accounts.spotify.com/es/login?continue=https%3A%2F%2Fopen.spotify.com%2Fintl-es%2F', 'LoginSpotify', 'width=600,height=700');
+    }
+    function saveCustomization() {
+      const backgroundColor = document.getElementById('backgroundColor').value;
+      const textColor = document.getElementById('textColor').value;
+      const accentColor = document.getElementById('accentColor').value;
+
+      localStorage.setItem('customBackground', backgroundColor);
+      localStorage.setItem('customText', textColor);
+      localStorage.setItem('customAccent', accentColor);
+      // Aplicar los nuevos colores
+      document.documentElement.style.setProperty('--background-color', backgroundColor);
+      document.documentElement.style.setProperty('--text-color', textColor);
+      document.documentElement.style.setProperty('--accent-color', accentColor);
+
+      document.body.style.backgroundColor = backgroundColor;
+      document.body.style.color = textColor;
+
+      toggleCustomization(); // Cerrar panel después de guardar
+    }
+    // Futuro: Integración con cuenta de Google y juegos integrados
+  </script>
+</body>
+</html>

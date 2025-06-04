@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprar Juegos | GX Game Hub</title>
+  <style>
+    :root {
+      --background-color: #0f0f0f;
+      --text-color: #ffffff;
+      --accent-color: #e60073;
+    }
+    body {
+      background-color: var(--background-color);
+      color: var(--text-color);
+      font-family: 'Orbitron', sans-serif;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--accent-color);
+    }
+
+    /* Barra de navegación */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background-color: #1a1a1a;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    header h1 {
+      margin: 0;
+      color: var(--accent-color);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin: 0 1rem;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    .search-bar {
+      margin-left: 2rem;
+    }
+
+    .search-bar input {
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    /* Listado de juegos */
+    .games-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .game-item {
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      padding: 1rem;
+      transition: transform 0.3s;
+    }
+
+    .game-item:hover {
+      transform: scale(1.05);
+    }
+
+    .game-item a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    /* Interfaz de personalización */
+  .personalizar-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+    .customization-container {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding:10px 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .customization-panel {
+      background-color: #2a2a2a;
+      padding: 2rem;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 300px;
+    }
+
+    .customization-panel input {
+      margin-bottom: 1rem;
+    }
+  </style>
+  <script>
+    // Cargar personalización desde localStorage y aplicarla
+    window.addEventListener('DOMContentLoaded', () => {
+      const root = document.documentElement;
+      const customBackground = localStorage.getItem('customBackground');
+      const customText = localStorage.getItem('customText');
+      const customAccent = localStorage.getItem('customAccent');
+
+      if (customBackground) root.style.setProperty('--background-color', customBackground);
+      if (customText) root.style.setProperty('--text-color', customText);
+      if (customAccent) root.style.setProperty('--accent-color', customAccent);
+
+      document.body.style.backgroundColor = getComputedStyle(root).getPropertyValue('--background-color') || '#0f0f0f';
+      document.body.style.color = getComputedStyle(root).getPropertyValue('--text-color') || '#ffffff';
+    });
+
+    function playClickSound() {
+      const audio = new Audio('click.mp3');
+      audio.play();
+    }
+
+    function toggleCustomization() {
+      const customizationPanel = document.getElementById('customizationPanel');
+      customizationPanel.style.display = customizationPanel.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function saveCustomization() {
+      const backgroundColor = document.getElementById('backgroundColor').value;
+      const textColor = document.getElementById('textColor').value;
+      const accentColor = document.getElementById('accentColor').value;
+
+      localStorage.setItem('customBackground', backgroundColor);
+      localStorage.setItem('customText', textColor);
+      localStorage.setItem('customAccent', accentColor);
+
+      // Aplicar los nuevos colores
+      document.documentElement.style.setProperty('--background-color', backgroundColor);
+      document.documentElement.style.setProperty('--text-color', textColor);
+      document.documentElement.style.setProperty('--accent-color', accentColor);
+
+      document.body.style.backgroundColor = backgroundColor;
+      document.body.style.color = textColor;
+
+      toggleCustomization(); // Cerrar panel después de guardar
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Game Hub</h1>
+    <nav>
+      <a href="file:///C:/Users/Isidro%20Fabela/Desktop/videojuegos/index.html" onclick="playClickSound()">Inicio</a>
+      <a href="#Jugar" onclick="playClickSound()">Jugar</a>
+    </nav>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Buscar juegos en Eneba...">
+    </div>
+  </header>
+    <button onclick="toggleCustomization()" button class="personalizar-btn">Personalizar</button>
+  
+
+  <h1>Comprar Juegos Populares</h1>
+
+  <div class="games-list" id="gamesList">
+    <div class="game-item">
+      <h3>Cyberpunk 2077</h3>
+      <p>Desde $19.99</p>
+      <a href="https://www.eneba.com/es/steam-cyberpunk-2077-pc" target="_blank">Ver en Eneba</a>
+    </div>
+    <div class="game-item">
+      <h3>Red Dead Redemption 2</h3>
+      <p>Desde $24.99</p>
+      <a href="https://www.eneba.com/es/rockstar-red-dead-redemption-2-pc" target="_blank">Ver en Eneba</a>
+    </div>
+    <div class="game-item">
+      <h3>The Witcher 3: Wild Hunt</h3>
+      <p>Desde $7.99</p>
+      <a href="https://www.eneba.com/es/steam-the-witcher-3-wild-hunt-game-of-the-year-edition-pc" target="_blank">Ver en Eneba</a>
+    </div>
+    <!-- Agrega más juegos según necesidad -->
+  </div>
+
+  <!-- Panel de personalización -->
+  <div id="customizationPanel" class="customization-container">
+    <div class="customization-panel">
+      <h2>Personaliza tu interfaz</h2>
+      <label for="backgroundColor">Color de Fondo:</label>
+      <input type="color" id="backgroundColor" value="#0f0f0f">
+      <label for="textColor">Color de Texto:</label>
+      <input type="color" id="textColor" value="#ffffff">
+      <label for="accentColor">Color de Acento:</label>
+      <input type="color" id="accentColor" value="#e60073">
+      <button onclick="saveCustomization()" style="margin-top: 1rem; background-color: var(--accent-color); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px;">Guardar Cambios</button>
+      <button onclick="toggleCustomization()" style="margin-top: 1rem; background-color: red; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px;">Cancelar</button>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const gamesList = document.getElementById("gamesList");
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      const items = gamesList.querySelectorAll(".game-item");
+
+      items.forEach(item => {
+        const title = item.querySelector("h3").textContent.toLowerCase();
+        item.style.display = title.includes(query) ? "block" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
+
